@@ -1,11 +1,12 @@
 import React from 'react'
-import productImg from '../../assets/images/mens/eight.jpg'
+import productImg from '../../assets/images/mens/eleven.jpg'
 
-const LatestProducts = () => {
+
+const FeaturedProducts = () => {
     return (
-        <section className='section-2 pt-5'>
+        <section className='section-2 py-5'>
             <div className='container'>
-                <h2>New Arrivals</h2>
+                <h2>Featured Products</h2>
                 <div className="row mt-3">
                     <div className="col-md-3 col-6">
                         <div className="product card border-0">
@@ -66,4 +67,4 @@ const LatestProducts = () => {
     )
 }
 
-export default LatestProducts
+export default FeaturedProducts
