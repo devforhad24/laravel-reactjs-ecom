@@ -1,53 +1,26 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../common/Layout";
 import Sidebar from "../../common/Sidebar";
 import { adminToken, apiUrl } from "../../common/http";
 import { toast } from "react-toastify";
 
-const Edit = () => {
-
+const Create = () => {
   const [disable, setDisable] = useState(false);
-  const [category, setCategory] = useState([]);
   const navigate = useNavigate();
-  const params = useParams();
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: async () => {
-      const res = await fetch(`${apiUrl}/categories/${params.id}`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${adminToken()}`,
-        }
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          if (result.status == 200) {
-            setCategory(result.data)
-            reset({
-              name: result.data.name,
-              status: result.data.status,
-            })
-          } else {
-            console.log("Something went wrong");
-          }
-        });
-    },
-  });
+  } = useForm();
 
-  const saveCategory = async (data) => {
+  const saveBrand = async (data) => {
     setDisable(true);
-    const res = await fetch(`${apiUrl}/categories/${params.id}`, {
-      method: "PUT",
+    // console.log(data);
+    const res = await fetch(`${apiUrl}/brands`, {
+      method: "POST",
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
@@ -55,25 +28,24 @@ const Edit = () => {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => res.json(data))
       .then((result) => {
         setDisable(false);
         if (result.status == 200) {
           toast.success(result.message);
-          navigate("/admin/categories");
+          navigate("/admin/brands");
         } else {
           console.log("Something went wrong");
         }
-      })
-  }
-
+      });
+  };
   return (
     <Layout>
       <div className="container">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h4 pb-0 mb-0">Category / Edit</h4>
-            <Link to="/admin/categories" className="btn btn-primary">
+            <h4 className="h4 pb-0 mb-0">Brand Create</h4>
+            <Link to="/admin/brands" className="btn btn-primary">
               Back
             </Link>
           </div>
@@ -81,7 +53,7 @@ const Edit = () => {
             <Sidebar />
           </div>
           <div className="col-md-9">
-            <form onSubmit={handleSubmit(saveCategory)}>
+            <form onSubmit={handleSubmit(saveBrand)}>
               <div className="card shadow">
                 <div className="card-body p-4">
                   <div className="mb-3">
@@ -90,11 +62,11 @@ const Edit = () => {
                     </label>
                     <input
                       {...register("name", {
-                        required: "The Category name field is required.",
+                        required: "The Brand name field is required.",
                       })}
                       type="text"
                       className={`form-control ${errors.name && "is-invalid"} `}
-                      placeholder="Category Name"
+                      placeholder="Brand Name"
                     />
                     {errors.name && (
                       <p className="invalid-feedback">{errors.name?.message}</p>
@@ -129,7 +101,7 @@ const Edit = () => {
                 type="submit"
                 className="btn btn-primary mt-3"
               >
-                Update
+                Create
               </button>
             </form>
           </div>
@@ -139,4 +111,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Create;
