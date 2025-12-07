@@ -40,7 +40,7 @@ const Show = () => {
   return (
     <Layout>
       <div className="container">
-        <div className="row">
+        <div className="row mb-5">
           <div className="d-flex justify-content-between mt-5 pb-3">
             <h4 className="h4 pb-0 mb-0">Products</h4>
             <Link to="/admin/products/create" className="btn btn-primary">
@@ -77,10 +77,12 @@ const Show = () => {
                           <tr key={product.id}>
                             <td>{product.id}</td>
                             <td>
-                                <img src={product.image_url || null} width={50} alt="Product Image" />
+                                {
+                                  (product.image_url == "") ? <img src="https://placehold.co/50x50" /> : <img src={product.image_url || null} width={50} alt="Product Image" />
+                                }
                             </td>
                             <td>{product.title}</td>
-                            <td>{product.price}</td>
+                            <td>${product.price}</td>
                             <td>{product.qty}</td>
                             <td>{product.sku}</td>
                             <td>

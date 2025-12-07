@@ -13,12 +13,14 @@ const Create = ({ placeholder }) => {
   const [disable, setDisable] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [gallery, setGallery] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
   const navigate = useNavigate();
 
   const config = useMemo(
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-      placeholder: placeholder || "Start typings...",
+      placeholder: placeholder || "",
     }),
     [placeholder]
   );
@@ -32,10 +34,9 @@ const Create = ({ placeholder }) => {
   } = useForm();
 
   const saveProduct = async (data) => {
-    
-    const formData = {...data, "description": content}
+    const formData = { ...data, description: content, gallery: gallery };
     setDisable(true);
-    
+
     const res = await fetch(`${apiUrl}/products`, {
       method: "POST",
       headers: {
@@ -54,11 +55,11 @@ const Create = ({ placeholder }) => {
         } else {
           const formErrors = result.errors;
           Object.keys(formErrors).forEach((field) => {
-            setError(field, {message: formErrors[field][0]});
-          })
+            setError(field, { message: formErrors[field][0] });
+          });
         }
-      })
-  }
+      });
+  };
 
   const fetchCategories = async () => {
     const res = await fetch(`${apiUrl}/categories`, {
@@ -91,6 +92,36 @@ const Create = ({ placeholder }) => {
         setBrands(result.data);
       });
   };
+
+  const handleFile = async (e) => {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("image", file);
+    setDisable(true);
+
+    const res = await fetch(`${apiUrl}/temp-images`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken()}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        gallery.push(result.data.id);
+        setGallery(gallery);
+        galleryImages.push(result.data.image_url);
+        setGalleryImages(galleryImages);
+        setDisable(false);
+        e.target.value = ""
+      });
+  }
+
+  const deleteImage = (image) => {
+    const newGallery = galleryImages.filter(gallery => gallery != image)
+    setGalleryImages(newGallery)
+  }
 
   useEffect(() => {
     fetchCategories();
@@ -170,9 +201,7 @@ const Create = ({ placeholder }) => {
                         <label className="form-label" htmlFor="">
                           Brand
                         </label>
-                        <select
-                        {...register("brand")}
-                        className="form-control">
+                        <select {...register("brand")} className="form-control">
                           <option value="">Select a Brand</option>
                           {brands &&
                             brands.map((brand) => {
@@ -194,7 +223,7 @@ const Create = ({ placeholder }) => {
                       Short Description
                     </label>
                     <textarea
-                    {...register("short_description")}
+                      {...register("short_description")}
                       className="form-control"
                       placeholder="Short Description"
                       rows={3}
@@ -243,7 +272,7 @@ const Create = ({ placeholder }) => {
                           Discounted Price
                         </label>
                         <input
-                        {...register("compare_price")}
+                          {...register("compare_price")}
                           type="number"
                           placeholder="Discounted Price"
                           className="form-control"
@@ -281,7 +310,7 @@ const Create = ({ placeholder }) => {
                           Barcode
                         </label>
                         <input
-                        {...register("barcode")}
+                          {...register("barcode")}
                           type="text"
                           placeholder="Barcode"
                           className="form-control"
@@ -296,7 +325,7 @@ const Create = ({ placeholder }) => {
                           Quantity
                         </label>
                         <input
-                        {...register("qty")}
+                          {...register("qty")}
                           type="text"
                           placeholder="Product Quantity"
                           className="form-control"
@@ -354,7 +383,26 @@ const Create = ({ placeholder }) => {
                     <label htmlFor="" className="form-label">
                       Image
                     </label>
-                    <input type="file" className="form-control" />
+                    <input
+                      onChange={handleFile}
+                      type="file"
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <div className="row">
+                      {galleryImages &&
+                        galleryImages.map((image, index) => {
+                          return (
+                            <div className="col-md-3" key={`image-${index}`}>
+                              <div className="card shadow">
+                                <img src={image} alt="" className="w-100" />
+                                <button onClick={() => deleteImage(image)} className="btn btn-danger mt-1">Delete</button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
               </div>
