@@ -39,7 +39,7 @@ const Create = () => {
           console.log("Something went wrong");
         }
       });
-  };
+  }
 
   return (
     <Layout>

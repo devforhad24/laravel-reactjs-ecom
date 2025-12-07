@@ -10,12 +10,16 @@ import Dashboard from "./components/admin/Dashboard";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 
 import { default as ShowCategories } from "./components/admin/category/Show";
-import { default as CreateCategories } from "./components/admin/category/Create";
-import { default as EditCategories } from "./components/admin/category/Edit";
+import { default as CreateCategory } from "./components/admin/category/Create";
+import { default as EditCategory } from "./components/admin/category/Edit";
 
 import { default as ShowBrands } from "./components/admin/brand/Show";
-import { default as CreateBrands } from "./components/admin/brand/Create";
-import { default as EditBrands } from "./components/admin/brand/Edit";
+import { default as CreateBrand } from "./components/admin/brand/Create";
+import { default as EditBrand } from "./components/admin/brand/Edit";
+
+import { default as ShowProducts } from "./components/admin/product/Show";
+import { default as CreateProduct } from "./components/admin/product/Create";
+import { default as EditProduct } from "./components/admin/product/Edit";
 
 function App() {
   return (
@@ -52,7 +56,7 @@ function App() {
             path="/admin/categories/create"
             element={
               <AdminRequireAuth>
-                <CreateCategories />
+                <CreateCategory />
               </AdminRequireAuth>
             }
           />
@@ -61,7 +65,7 @@ function App() {
             path="/admin/categories/edit/:id"
             element={
               <AdminRequireAuth>
-                <EditCategories />
+                <EditCategory />
               </AdminRequireAuth>
             }
           />
@@ -79,7 +83,7 @@ function App() {
             path="/admin/brands/create"
             element={
               <AdminRequireAuth>
-                <CreateBrands />
+                <CreateBrand />
               </AdminRequireAuth>
             }
           />
@@ -88,11 +92,35 @@ function App() {
             path="/admin/brands/edit/:id"
             element={
               <AdminRequireAuth>
-                <EditBrands />
+                <EditBrand />
               </AdminRequireAuth>
             }
           />
 
+          <Route
+            path="/admin/products"
+            element={
+              <AdminRequireAuth>
+                <ShowProducts />
+              </AdminRequireAuth>
+            }
+          />
+          <Route
+            path="/admin/products/create"
+            element={
+              <AdminRequireAuth>
+                <CreateProduct />
+              </AdminRequireAuth>
+            }
+          />
+          <Route
+            path="/admin/products/edit/:id"
+            element={
+              <AdminRequireAuth>
+                <EditProduct />
+              </AdminRequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
