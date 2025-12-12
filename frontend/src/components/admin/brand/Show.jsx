@@ -17,8 +17,8 @@ const Show = () => {
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${adminToken()}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${adminToken()}`,
       },
     })
       .then((res) => res.json())
@@ -56,7 +56,7 @@ const Show = () => {
           }
         });
     }
-  };
+  }
 
   useEffect(() => {
     fetchBrands();

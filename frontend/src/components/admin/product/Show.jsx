@@ -33,6 +33,31 @@ const Show = () => {
       });
   };
 
+  const deleteProduct = async (id) => {
+    if (confirm("Are you sure you want to delete")) {
+      const res = await fetch(`${apiUrl}/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.status == 200) {
+            const newProducts = products.filter(
+              (product) => product.id != id
+            );
+            setProducts(newProducts);
+            toast.success(result.message);
+          } else {
+            toast.error(result.message);
+          }
+        });
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -74,12 +99,18 @@ const Show = () => {
                     <tbody>
                       {products.map((product) => {
                         return (
-                          <tr key={product.id}>
+                          <tr key={`product-${product.id}`}>
                             <td>{product.id}</td>
                             <td>
-                                {
-                                  (product.image_url == "") ? <img src="https://placehold.co/50x50" /> : <img src={product.image_url || null} width={50} alt="Product Image" />
-                                }
+                              {product.image_url == "" ? (
+                                <img src="https://placehold.co/50x50" />
+                              ) : (
+                                <img
+                                  src={product.image_url}
+                                  width={50}
+                                  alt=""
+                                />
+                              )}
                             </td>
                             <td>{product.title}</td>
                             <td>${product.price}</td>

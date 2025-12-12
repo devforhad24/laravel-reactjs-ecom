@@ -23,8 +23,8 @@ const Create = () => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${adminToken()}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${adminToken()}`,
       },
       body: JSON.stringify(data),
     })
@@ -38,7 +38,7 @@ const Create = () => {
           console.log("Something went wrong");
         }
       });
-  };
+  }
   return (
     <Layout>
       <div className="container">
