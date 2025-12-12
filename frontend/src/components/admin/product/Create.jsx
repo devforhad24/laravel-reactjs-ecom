@@ -290,12 +290,12 @@ const Create = ({ placeholder }) => {
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="" className="form-label">
-                          Discounted Price
+                          Compare Price
                         </label>
                         <input
                           {...register("compare_price")}
                           type="number"
-                          placeholder="Discounted Price"
+                          placeholder="Compare Price"
                           className="form-control"
                         />
                       </div>
