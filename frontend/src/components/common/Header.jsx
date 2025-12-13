@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <header className="shadow">
       <div className="bg-dark text-center py-3">
-        <span className="text-white">Your fashion partner</span>
+        <span className="text-white">FK Bazar | Your Fashion Partner</span>
       </div>
       <div className="container">
         <Navbar expand="lg" className="">
@@ -45,7 +45,7 @@ const Header = () => {
                 {
                     categories && categories.map(category => {
                         return (
-                            <Nav.Link href={`/shop?category=${category.id}`}>{category.name}</Nav.Link>               
+                            <Nav.Link key={`cat-${category.id}`} href={`/shop?category=${category.id}`}>{category.name}</Nav.Link>               
                         )
                     })
                 }
