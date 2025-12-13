@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ProductImg from "../assets/images/mens/six.jpg";
 import { CartContext } from "./context/cart";
 
+
 const Cart = () => {
   const {
     cartData,
@@ -105,9 +106,8 @@ const Cart = () => {
             </table>
           </div>
         </div>
-        {
-          cartData.length > 0 &&
-                    <div className="row justify-content-end">
+        {cartData.length > 0 && (
+          <div className="row justify-content-end">
             <div className="col-md-3">
               <div className="d-flex justify-content-between border-bottom pb-2">
                 <div>Subtotal</div>
@@ -124,11 +124,11 @@ const Cart = () => {
                 <div>${grandTotal()}</div>
               </div>
               <div className="d-flex justify-content-end py-3">
-                <button className="btn btn-primary">Proceed To Checkout</button>
+                <Link to={`/checkout`} className="btn btn-primary">Proceed To Checkout</Link>
               </div>
             </div>
           </div>
-        }
+        )}
       </div>
     </Layout>
   );
