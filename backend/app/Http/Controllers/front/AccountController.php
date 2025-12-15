@@ -80,7 +80,7 @@ class AccountController extends Controller
         $order = Order::where([
             'user_id' => $request->user()->id,
             'id' => $id
-        ])->with('items')->first();
+        ])->with('items','items.product')->first();
         if ($order == null) {
             return response()->json([
                 'status' => 404,
@@ -93,5 +93,14 @@ class AccountController extends Controller
                 'data' => $order
             ], 200);
         }
+    }
+
+    public function getOrders(Request $request){
+        $orders = Order::where('user_id', $request->user()->id)->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $orders
+        ]);
     }
 }

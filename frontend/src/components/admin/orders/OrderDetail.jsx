@@ -77,6 +77,7 @@ const OrderDetail = () => {
   useEffect(() => {
     fetchOrder();
   }, []);
+  
   return (
     <Layout>
       <div className="container">
