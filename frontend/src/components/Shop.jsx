@@ -45,7 +45,6 @@ const Shop = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         if (result.status == 200) {
           setProducts(result.data);
         } else {

@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import ProductImg from "../assets/images/mens/three.jpg";
 import Layout from "./common/Layout";
 import { useState } from "react";
@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { cartData, grandTotal, subTotal, shipping } = useContext(CartContext);
-
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const navigate = useNavigate();
   const handlePaymentMethod = (e) => {
@@ -19,10 +18,35 @@ const Checkout = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      fetch(`${apiUrl}/get-profile-details`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${userToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          reset({
+            name: result.data.name,
+            email: result.data.email,
+            phone: result.data.phone,
+            address: result.data.address,
+            city: result.data.city,
+            state: result.data.state,
+            zip: result.data.zip,
+            name: result.data.name,
+          });
+        });
+    },
+  });
 
   const processOrder = (data) => {
     if (paymentMethod == "cod") {
@@ -31,7 +55,6 @@ const Checkout = () => {
   };
 
   const saveOrder = (formData, paymentStatus) => {
-    console.log(cartData);
     const newFormData = {
       ...formData,
       grand_total: grandTotal(),
@@ -54,10 +77,10 @@ const Checkout = () => {
       .then((res) => res.json())
       .then((result) => {
         if (result.status == 200) {
-            localStorage.removeItem('cart');
-            navigate(`/order/confirmation/${result.id}`)
-        }else{
-            toast.error(result.message)
+          localStorage.removeItem("cart");
+          navigate(`/order/confirmation/${result.id}`);
+        } else {
+          toast.error(result.message);
         }
       });
   };

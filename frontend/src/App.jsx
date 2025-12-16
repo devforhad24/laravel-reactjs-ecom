@@ -22,13 +22,14 @@ import { default as CreateProduct } from "./components/admin/product/Create";
 import { default as EditProduct } from "./components/admin/product/Edit";
 import Register from "./components/Register";
 import { default as UserLogin } from "./components/Login";
-import Profile from "./components/Profile";
+import Profile from "./components/front/Profile";
 import { RequireAuth } from "./components/RequireAuth";
 import Confirmation from "./components/Confirmation";
 import ShowOrders from "./components/admin/orders/ShowOrders";
 import OrderDetail from "./components/admin/orders/OrderDetail";
 import MyOrders from "./components/front/MyOrders";
 import {default as UserOrderDetail} from './components/front/OrderDetail'
+import Shipping from "./components/admin/shipping/Shipping";
 
 function App() {
   return (
@@ -196,6 +197,16 @@ function App() {
               </AdminRequireAuth>
             }
           />
+
+          <Route
+            path="/admin/shipping"
+            element={
+              <AdminRequireAuth>
+                <Shipping />
+              </AdminRequireAuth>
+            }
+          />
+
         </Routes>
       </BrowserRouter>
       <ToastContainer />
