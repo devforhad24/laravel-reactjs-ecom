@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
+
 import Layout from "../../common/Layout";
 import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../common/Sidebar";
@@ -75,10 +76,11 @@ const OrderDetail = () => {
   };
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrder(), document.title = "Order Details - Admin Panel";
   }, []);
   
   return (
+
     <Layout>
       <div className="container">
         <div className="row">
@@ -216,7 +218,7 @@ const OrderDetail = () => {
                 </div>
               </div>
               <div className="col-md-3">
-                <div className="card shadow">
+                <div className="card shadow mb-5">
                   <div className="card-body p-4">
                     <form onSubmit={handleSubmit(updateOrder)}>
                       <div className="mb-3">

@@ -31,7 +31,7 @@ const Confirmation = () => {
   };
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrder(),document.title = "Order Confirmation - FK BAZAR";
   }, []);
 
   return (
@@ -115,8 +115,8 @@ const Confirmation = () => {
                           <tr key={item.id}>
                             <td>{item.name}</td>
                             <td>{item.qty}</td>
-                            <td>{item.unit_price}</td>
-                            <td>$ {item.price}</td>
+                            <td>৳ {item.unit_price}</td>
+                            <td>৳ {item.price}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -125,28 +125,33 @@ const Confirmation = () => {
                           <td className="text-end fw-bold" colSpan={3}>
                             Subtotal
                           </td>
-                          <td>$ {order.subtotal}</td>
+                          <td>৳ {order.subtotal}</td>
                         </tr>
                         <tr>
                           <td className="text-end fw-bold" colSpan={3}>
                             Shipping
                           </td>
-                          <td>$ {order.shipping}</td>
+                          <td>৳ {order.shipping}</td>
                         </tr>
                         <tr>
                           <td className="text-end fw-bold" colSpan={3}>
                             Grand Total
                           </td>
-                          <td>$ {order.grand_total}</td>
+                          <td>৳ {order.grand_total}</td>
                         </tr>
                       </tfoot>
                     </table>
                   </div>
-                  <div className="text-center">
-                    <button className="btn btn-primary">
+                  
+                  <div className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2 text-center">
+                    <button className="btn btn-primary w-50 w-sm-auto">
                       View Order Details
                     </button>
-                    <Link to={'/'} className="btn btn-outline-secondary ms-2">
+
+                    <Link
+                      to="/"
+                      className="btn btn-outline-secondary w-50 w-sm-auto"
+                    >
                       Continue Shopping
                     </Link>
                   </div>

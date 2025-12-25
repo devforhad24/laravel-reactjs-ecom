@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../common/Layout";
@@ -10,6 +10,9 @@ const Create = () => {
 
   const [disable, setDisable] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Create Category - Admin Panel";
+  }, []);
   const {
     register,
     handleSubmit,

@@ -147,6 +147,7 @@ const Create = ({ placeholder }) => {
     fetchCategories();
     fetchBrands();
     fetchSizes();
+    document.title = "Create Product - Admin Panel";
   }, []);
 
   return (

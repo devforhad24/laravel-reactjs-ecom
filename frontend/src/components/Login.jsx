@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { toast } from "react-toastify";
@@ -8,6 +8,9 @@ import { apiUrl } from "./common/http";
 import { AuthContext } from "./context/Auth";
 
 const Login = () => {
+    useEffect(() => {
+      document.title = "User Login - FK BAZAR"; // dynamic title
+    }, []);
   const {
     register,
     handleSubmit,
@@ -15,7 +18,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -44,55 +47,73 @@ const Login = () => {
   };
   return (
     <Layout>
-      <div className="container d-flex justify-content-center py-5">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="card shadow border-0 login">
-            <div className="card-body p-4">
-              <h3>Login</h3>
-              <div className="mb-3">
-                <label htmlFor="" className="form-label">
-                  Email
-                </label>
-                <input
-                  {...register("email", {
-                    required: "The email field is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address",
-                    },
-                  })}
-                  type="text"
-                  className={`form-control ${errors.email && "is-invalid"} `}
-                  placeholder="Enter your Email"
-                />
-                {errors.email && (
-                  <p className="invalid-feedback">{errors.email?.message}</p>
-                )}
+      <div className="container-fluid py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="card shadow border-0">
+                <div className="card-body p-4 p-md-5">
+                  <h3 className="text-center mb-4">Login</h3>
+
+                  {/* Email */}
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input
+                      {...register("email", {
+                        required: "The email field is required",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Invalid email address",
+                        },
+                      })}
+                      type="text"
+                      className={`form-control ${
+                        errors.email ? "is-invalid" : ""
+                      }`}
+                      placeholder="Enter your Email"
+                    />
+                    {errors.email && (
+                      <div className="invalid-feedback">
+                        {errors.email.message}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Password */}
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input
+                      {...register("password", {
+                        required: "The password field is required.",
+                      })}
+                      type="password"
+                      className={`form-control ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
+                      placeholder="Enter your Password"
+                    />
+                    {errors.password && (
+                      <div className="invalid-feedback">
+                        {errors.password.message}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Button */}
+                  <button type="submit" className="btn btn-secondary w-100">
+                    Login
+                  </button>
+
+                  {/* Register Link */}
+                  <div className="text-center mt-4">
+                    Don&apos;t have an account?{" "}
+                    <Link to="/account/register">Register</Link>
+                  </div>
+                </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="" className="form-label">
-                  Password
-                </label>
-                <input
-                  {...register("password", {
-                    required: "The password field is required.",
-                  })}
-                  type="password"
-                  className={`form-control ${errors.password && "is-invalid"} `}
-                  placeholder="Enter your Password"
-                />
-                {errors.password && (
-                  <p className="invalid-feedback">{errors.password?.message}</p>
-                )}
-              </div>
-              <button className="btn btn-secondary w-100">Login</button>
-              <div className="d-flex justify-content-center py-4">
-                Don't have an account?&nbsp;{" "}
-                <Link to="/account/register">Register</Link>
-              </div>
-            </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </Layout>
   );

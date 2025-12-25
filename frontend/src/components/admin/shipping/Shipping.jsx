@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../common/Layout";
 import Sidebar from "../../common/Sidebar";
 import { adminToken, apiUrl } from "../../common/http";
@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 
 const Shipping = () => {
   const [disable, setDisable] = useState(false);
+  useEffect(() => {
+    document.title = "Shipping - Admin Panel";
+  }, []);
   const {
     register,
     handleSubmit,
@@ -62,7 +65,7 @@ const Shipping = () => {
   return (
     <Layout>
       <div className="container">
-        <div className="row">
+        <div className="row mb-5">
           <div className="d-flex justify-content-between mt-5 pb-3">
             <h4 className="h4 pb-0 mb-0">Shipping</h4>
           </div>

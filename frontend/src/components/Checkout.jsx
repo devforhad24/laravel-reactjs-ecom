@@ -1,7 +1,7 @@
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import ProductImg from "../assets/images/mens/three.jpg";
 import Layout from "./common/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "./context/cart";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,9 @@ import { apiUrl, userToken } from "./common/http";
 import { toast } from "react-toastify";
 
 const Checkout = () => {
+    useEffect(() => {
+      document.title = "Checkout - FK BAZAR"; // dynamic title
+    }, []);
   const { cartData, grandTotal, subTotal, shipping } = useContext(CartContext);
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const navigate = useNavigate();
@@ -42,7 +45,6 @@ const Checkout = () => {
             city: result.data.city,
             state: result.data.state,
             zip: result.data.zip,
-            name: result.data.name,
           });
         });
     },
@@ -251,7 +253,7 @@ const Checkout = () => {
                           <td width={600}>
                             <h4>{item.title}</h4>
                             <div className="d-flex align-items-center pt-3">
-                              <span>${item.price}</span>
+                              <span>৳ {item.price}</span>
                               <div className="ps-3">
                                 {item.size && (
                                   <button className="btn btn-size">
@@ -271,17 +273,17 @@ const Checkout = () => {
                 <div className="col-md-12">
                   <div className="d-flex justify-content-between border-bottom pb-2">
                     <div>Subtotal</div>
-                    <div>${subTotal()}</div>
+                    <div>৳ {subTotal()}</div>
                   </div>
                   <div className="d-flex justify-content-between border-bottom py-2">
                     <div>Shipping</div>
-                    <div>${shipping()}</div>
+                    <div>৳ {shipping()}</div>
                   </div>
                   <div className="d-flex justify-content-between border-bottom py-2">
                     <div>
                       <strong>Grand Total</strong>
                     </div>
-                    <div>${grandTotal()}</div>
+                    <div>৳ {grandTotal()}</div>
                   </div>
                 </div>
               </div>

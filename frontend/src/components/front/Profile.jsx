@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserSidebar from "../common/UserSidebar";
 import Layout from "../common/Layout";
@@ -10,7 +10,9 @@ import Loader from "../common/Loader";
 const Profile = () => {
 
   const [loading, setLoading] = useState(true)
-
+  useEffect(() => {
+    document.title = "Customer Profile - FK BAZAR"; // dynamic title
+  }, []);
   const {
     register,
     reset,
@@ -37,8 +39,7 @@ const Profile = () => {
             address: result.data.address,
             city: result.data.city,
             state: result.data.state,
-            zip: result.data.zip,
-            name: result.data.name,
+            zip: result.data.zip
           });
         });
     },

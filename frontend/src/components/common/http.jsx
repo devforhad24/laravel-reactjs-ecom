@@ -6,6 +6,6 @@ export const adminToken = () => {
 };
 
 export const userToken = () => {
-  const data = JSON.parse(localStorage.getItem("userInfo"));
-  return data.token;
+  const data = JSON.parse(localStorage.getItem("userInfo"))?.token || null;
+  return data;
 };

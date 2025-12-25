@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../components/common/Layout";
 import { Link } from "react-router-dom";
 import ProductImg from "../assets/images/mens/six.jpg";
@@ -6,6 +6,9 @@ import { CartContext } from "./context/cart";
 
 
 const Cart = () => {
+    useEffect(() => {
+      document.title = "Cart - FK BAZAR"; // dynamic title
+    }, []);
   const {
     cartData,
     grandTotal,
@@ -27,7 +30,7 @@ const Cart = () => {
       <div className="container pb-5">
         <div className="row">
           <div className="col-md-12">
-            <nav aria-label="breadcrumb" className="py-4">
+            <nav aria-label="breadcrumb" className="py-2">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   <Link to="/">Home</Link>
@@ -111,17 +114,17 @@ const Cart = () => {
             <div className="col-md-3">
               <div className="d-flex justify-content-between border-bottom pb-2">
                 <div>Subtotal</div>
-                <div>${subTotal()}</div>
+                <div>৳ {subTotal()}</div>
               </div>
               <div className="d-flex justify-content-between border-bottom py-2">
                 <div>Shipping</div>
-                <div>${shipping()}</div>
+                <div>৳ {shipping()}</div>
               </div>
               <div className="d-flex justify-content-between border-bottom py-2">
                 <div>
                   <strong>Grand Total</strong>
                 </div>
-                <div>${grandTotal()}</div>
+                <div>৳ {grandTotal()}</div>
               </div>
               <div className="d-flex justify-content-end py-3">
                 <Link to={`/checkout`} className="btn btn-primary">Proceed To Checkout</Link>

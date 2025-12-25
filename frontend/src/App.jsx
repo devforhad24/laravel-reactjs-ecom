@@ -9,6 +9,9 @@ import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./components/admin/Dashboard";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 import { default as ShowCategories } from "./components/admin/category/Show";
 import { default as CreateCategory } from "./components/admin/category/Create";
 import { default as EditCategory } from "./components/admin/category/Edit";
@@ -28,14 +31,17 @@ import Confirmation from "./components/Confirmation";
 import ShowOrders from "./components/admin/orders/ShowOrders";
 import OrderDetail from "./components/admin/orders/OrderDetail";
 import MyOrders from "./components/front/MyOrders";
-import {default as UserOrderDetail} from './components/front/OrderDetail'
+import { default as UserOrderDetail } from "./components/front/OrderDetail";
 import Shipping from "./components/admin/shipping/Shipping";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          {/* Catch-all route for 404 */}
+          <Route path="*" element={<NotFound />} />
           {/* frontend routes */}
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -206,7 +212,6 @@ function App() {
               </AdminRequireAuth>
             }
           />
-
         </Routes>
       </BrowserRouter>
       <ToastContainer />

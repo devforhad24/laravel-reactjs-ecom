@@ -59,7 +59,7 @@ const Show = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories(), document.title = "Categories - Admin Panel";
   }, []);
 
   return (
@@ -75,7 +75,7 @@ const Show = () => {
           <div className="col-md-3">
             <Sidebar />
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9 mb-5">
             <div className="card shadow">
               <div className="card-body p-4">
                 {loader == true && <Loader />}

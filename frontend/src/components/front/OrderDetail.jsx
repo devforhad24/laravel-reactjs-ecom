@@ -34,7 +34,7 @@ const OrderDetail = () => {
   };
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrder(), document.title = "Order Details - FK BAZAR"; // dynamic title
   }, []);
 
   return (
@@ -150,17 +150,17 @@ const OrderDetail = () => {
                         <div className="col-lg-12">
                           <div className="d-flex  justify-content-between border-bottom pb-2 mb-2">
                             <div>Subtotal</div>
-                            <div>${order.subtotal}</div>
+                            <div>৳ {order.subtotal}</div>
                           </div>
                           <div className="d-flex  justify-content-between border-bottom pb-2 mb-2">
                             <div>Shipping</div>
-                            <div>${order.shipping}</div>
+                            <div>৳ {order.shipping}</div>
                           </div>
                           <div className="d-flex  justify-content-between border-bottom pb-2 mb-2">
                             <div>
                               <strong>Grand Total</strong>
                             </div>
-                            <div>${order.grand_total}</div>
+                            <div>৳ {order.grand_total}</div>
                           </div>
                         </div>
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../common/Layout";
@@ -11,7 +11,9 @@ const Edit = () => {
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
-
+  useEffect(() => {
+    document.title = "Brand Edit - Admin Panel"; // dynamic title
+  }, []);
   const {
     register,
     handleSubmit,

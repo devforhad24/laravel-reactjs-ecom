@@ -11,6 +11,17 @@ const Show = () => {
   const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Calculate total pages
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  // Get products for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+
   const fetchProducts = async () => {
     setLoader(true);
     const res = await fetch(`${apiUrl}/products`, {
@@ -46,9 +57,7 @@ const Show = () => {
         .then((res) => res.json())
         .then((result) => {
           if (result.status == 200) {
-            const newProducts = products.filter(
-              (product) => product.id != id
-            );
+            const newProducts = products.filter((product) => product.id != id);
             setProducts(newProducts);
             toast.success(result.message);
           } else {
@@ -60,71 +69,81 @@ const Show = () => {
 
   useEffect(() => {
     fetchProducts();
+    document.title = "Products - Admin Panel";
   }, []);
 
   return (
     <Layout>
-      <div className="container">
+      <div className="container-fluid py-5">
         <div className="row mb-5">
-          <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h4 pb-0 mb-0">Products</h4>
+          {/* Header */}
+          <div className="col-12 d-flex justify-content-between align-items-center mb-3">
+            <h4 className="mb-0">Products</h4>
             <Link to="/admin/products/create" className="btn btn-primary">
               Add Product
             </Link>
           </div>
-          <div className="col-md-3">
+
+          {/* Sidebar */}
+          <div className="col-12 col-md-3 mb-4 mb-md-0">
             <Sidebar />
           </div>
-          <div className="col-md-9">
+
+          {/* Main Content */}
+          <div className="col-12 col-md-9">
             <div className="card shadow">
               <div className="card-body p-4">
-                {loader == true && <Loader />}
-                {loader == false && products.length == 0 && (
+                {/* Loader */}
+                {loader && <Loader />}
+
+                {/* No Products */}
+                {!loader && products.length === 0 && (
                   <Nostate text="Product not found." />
                 )}
-                {products && products.length > 0 && (
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Sku</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {products.map((product) => {
-                        return (
+
+                {/* Products Table */}
+                {products.length > 0 && (
+                  <div className="table-responsive">
+                    <table className="table table-striped align-middle">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Price</th>
+                          <th className="d-none d-sm-table-cell">Qty</th>
+                          <th className="d-none d-md-table-cell">Sku</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentProducts.map((product) => (
                           <tr key={`product-${product.id}`}>
                             <td>{product.id}</td>
                             <td>
-                              {product.image_url == "" ? (
-                                <img src="https://placehold.co/50x50" />
-                              ) : (
-                                <img
-                                  src={product.image_url}
-                                  width={50}
-                                  alt=""
-                                />
-                              )}
+                              <img
+                                src={
+                                  product.image_url ||
+                                  "https://placehold.co/50x50"
+                                }
+                                width={50}
+                                alt={product.title}
+                              />
                             </td>
                             <td>{product.title}</td>
-                            <td>${product.price}</td>
-                            <td>{product.qty}</td>
-                            <td>{product.sku}</td>
+                            <td>৳ {product.price}</td>
+                            <td className="d-none d-sm-table-cell">
+                              {product.qty}
+                            </td>
+                            <td className="d-none d-md-table-cell">
+                              {product.sku}
+                            </td>
                             <td>
-                              {product.status == 1 ? (
-                                <span className="badge text-bg-success">
-                                  Active
-                                </span>
+                              {product.status === 1 ? (
+                                <span className="badge bg-success">Active</span>
                               ) : (
-                                <span className="badge text-bg-danger">
-                                  Block
-                                </span>
+                                <span className="badge bg-danger">Block</span>
                               )}
                             </td>
                             <td>
@@ -143,11 +162,13 @@ const Show = () => {
                                 >
                                   <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>
                                 </svg>
+                                {/* Edit Icon */}
                               </Link>
                               <Link
                                 className="text-danger ms-2"
                                 onClick={() => deleteProduct(product.id)}
                               >
+                                {/* Trash Icon */}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="18"
@@ -161,10 +182,55 @@ const Show = () => {
                               </Link>
                             </td>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                        ))}
+                      </tbody>
+                    </table>
+                    <nav>
+                      <ul className="pagination justify-content-center mt-2">
+                        <li
+                          className={`page-item ${
+                            currentPage === 1 ? "disabled" : ""
+                          }`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                          >
+                            Previous
+                          </button>
+                        </li>
+
+                        {[...Array(totalPages)].map((_, index) => (
+                          <li
+                            key={index}
+                            className={`page-item ${
+                              currentPage === index + 1 ? "active" : ""
+                            }`}
+                          >
+                            <button
+                              className="page-link"
+                              onClick={() => setCurrentPage(index + 1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        ))}
+
+                        <li
+                          className={`page-item ${
+                            currentPage === totalPages ? "disabled" : ""
+                          }`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                          >
+                            Next
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
                 )}
               </div>
             </div>

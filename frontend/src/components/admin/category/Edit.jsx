@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../common/Layout";
@@ -12,6 +12,9 @@ const Edit = () => {
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
+  useEffect(() => {
+    document.title = "Edit Category - Admin Panel";
+  }, []);
   const {
     register,
     handleSubmit,

@@ -12,9 +12,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { toast } from 'react-toastify';
 
-import ProductImgOne from "../assets/images/mens/five.jpg";
-import ProductImgTwo from "../assets/images/mens/six.jpg";
-import ProductImgThree from "../assets/images/mens/seven.jpg";
 import { apiUrl } from "./common/http";
 import { CartContext } from "./context/cart";
 
@@ -64,7 +61,7 @@ const Product = () => {
   };
 
   useEffect(() => {
-    fetchProduct();
+    fetchProduct(), document.title = "Product View - FK BAZAR"; // dynamic title
   }, []);
 
   return (
@@ -160,23 +157,24 @@ const Product = () => {
             </div>
           </div>
           <div className="col-md-7">
-            <h2>{product.title}</h2>
+            <h2 className="p_title">{product.title}</h2>
             <div>
               <div className="d-flex">
                 <Rating size={20} readonly initialValue={rating} />
                 <span className="pt-1 ps-2">10 Reviews</span>
               </div>
               <div className="price h3 py-3">
-                ${product.price} &nbsp;
+                ৳ {product.price} &nbsp;
                 {product.compare_price && (
                   <span className="text-decoration-line-through">
-                    ${product.compare_price}
+                    ৳ {product.compare_price}
                   </span>
                 )}
               </div>
               <div>{product.short_description}</div>
               <div className="pt-3">
-                <strong>Select Size</strong>
+                {productSizes && productSizes.length > 0 && <strong>Select Size</strong>}
+
                 <div className="sizes pt-2">
                   {productSizes &&
                     productSizes.map((product_size) => {

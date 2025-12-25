@@ -222,6 +222,7 @@ const Edit = ({ placeholder }) => {
     fetchCategories();
     fetchBrands();
     fetchSizes();
+    document.title = "Edit Product - Admin Panel";
   }, []);
 
   return (

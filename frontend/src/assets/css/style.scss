@@ -135,13 +135,16 @@ footer {
     border-top: 1px solid rgba($primary-white, 0.1);
     border-bottom: 1px solid rgba($primary-white, 0.1);
   }
+  .text-justify {
+  text-align: justify !important;
+}
 }
 
 .section-1 {
   .swiper {
     .swiper-wrapper {
       .swiper-slide {
-        height: 80vh;
+        height: 95vh;
         .content {
           width: 100%;
           height: 100%;
@@ -237,7 +240,12 @@ footer {
   }
 }
 
-
+/* Styles specifically for printing */
+@media print {
+  .hide-on-print {
+    display: none !important; /* Hides elements with this class when printing */
+  }
+}
 
 @media (min-width: 200px) and (max-width: 768px) {
   .section-1 {

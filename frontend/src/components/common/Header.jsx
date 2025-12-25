@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { apiUrl } from "./http";
 import { CartContext } from "../context/cart";
 
-
 const Header = () => {
   const { getQty } = useContext(CartContext);
   const [categories, setCategories] = useState([]);
@@ -34,8 +33,10 @@ const Header = () => {
 
   return (
     <header className="shadow">
-      <div className="bg-dark text-center py-3">
-        <span className="text-white">FK Bazar | Your Fashion Partner</span>
+      <div className="bg-dark text-center py-3 card-header overflow-hidden">
+        <span className="text-white react-marquee">
+          Welcome To - FK Bazar | Your Fashion Partner
+        </span>
       </div>
       <div className="container">
         <Navbar expand="lg" className="">
